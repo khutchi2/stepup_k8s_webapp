@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: stepup
-        image: khutchi2/stepup:latest
+        image: <username>/<repo-name>:webapp
         ports:
         - containerPort: 5000
         volumeMounts:
