@@ -77,12 +77,25 @@ kubectl apply -f k8s/
 kubectl get pods
 ```
 
-4. To view the web app you'll first need to forward the port.  This is basically how you open up your cluster to your web browser.  You'll need to run the command below.  From the previous command, you can copy and paste the pod with name prefixed "webapp".  (It will probably look something like: *webapp-6b6c6c5498-h4xcf*.)
+4. To view the web app you'll first need to forward the port:
 ```bash
-kubectl port-forward pod/<pod-name> 5000:5000
+kubectl port-forward service/nginx-service 8080:80
 ```
 5. Open a web browser and enter the following into the URL bar:
 ```
-localhost:5000
+localhost:8080/api/items
 ```
-hopefully you'll see a mostly blank page that says, "Hello from Docker!"
+hopefully you'll see a blank page that has ```[]``` on it
+
+6. Now, from your terminal run:
+```bash
+curl -X POST http://localhost:8080/api/items \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Thing1", "description": "Here's a thing"}'
+```
+
+7. Refresh the webpage 
+```
+localhost:8080/api/items
+```
+and your json should show up there.
