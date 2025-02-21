@@ -13,8 +13,8 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: <repo-name>
-        image: <username>/<repo-name>:webapp
+      - name: stepup
+        image: khutchi2/stepup:latest
         ports:
         - containerPort: 5000
         volumeMounts:

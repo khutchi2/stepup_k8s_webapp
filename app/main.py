@@ -1,4 +1,3 @@
-# app/app.py
 from flask import Flask, jsonify, request
 import sqlite3
 import os
@@ -16,8 +15,16 @@ def init_db():
             )
         ''')
 
-@app.before_first_request
-def setup():
+# Replace before_first_request with init-db CLI command
+@app.cli.command('init-db')
+def init_db_command():
+    """Initialize the database."""
+    init_db()
+    print('Initialized the database.')
+
+# Move database check to a before_request handler
+@app.before_request
+def check_database():
     if not os.path.exists(DATABASE):
         init_db()
 
@@ -32,6 +39,9 @@ def get_items():
 @app.route('/api/items', methods=['POST'])
 def add_item():
     data = request.get_json()
+    if not data or 'name' not in data:
+        return jsonify({'error': 'Name is required'}), 400
+        
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
         cursor.execute('INSERT INTO items (name, description) VALUES (?, ?)',

@@ -63,6 +63,11 @@ This will all be much the same as before.
 docker build -t <username>/<repo-name>:webapp .
 ```
 
+2. To push the docker image to DockerHub, run:
+```bash
+docker push <username>/<repo-name>:webapp
+```
+
 2. Apply the Kubernetes manifests and kick off spinning up the app by running:
 ```bash
 kubectl apply -f k8s/
